@@ -13,12 +13,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'anchor build'
+                sh '$HOME/.cargo/bin/anchor build'
             }
         }
         stage('Test') {
             steps {
-                sh 'anchor test'
+                sh '$HOME/.cargo/bin/anchor test'
             }
         }
     }
