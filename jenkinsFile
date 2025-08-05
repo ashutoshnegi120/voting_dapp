@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        EMAIL = 'ashutoshnegisgrr@gamil.com'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'anchor build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'anchor test'
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: "${EMAIL}",
+                 subject: "Jenkins Pipeline Success: Voting DApp",
+                 body: "The Jenkins pipeline completed successfully. All stages passed."
+        }
+        failure {
+            mail to: "${EMAIL}",
+                 subject: "Jenkins Pipeline Failed: Voting DApp",
+                 body: "The Jenkins pipeline failed. Please check the Jenkins logs for details."
+        }
+    }
+}
