@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        PATH = "/usr/local/bin:${env.PATH}"
         EMAIL = 'ashutoshnegisgrr@gmail.com'
     }
 
@@ -13,12 +14,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh '$HOME/.cargo/bin/anchor build'
+                sh 'anchor build'
             }
         }
         stage('Test') {
             steps {
-                sh '$HOME/.cargo/bin/anchor test'
+                sh 'anchor test'
             }
         }
     }
@@ -26,13 +27,13 @@ pipeline {
     post {
         success {
             mail to: "${EMAIL}",
-                 subject: "Jenkins Pipeline Success: Voting DApp",
-                 body: "The Jenkins pipeline completed successfully. All stages passed."
+                 subject: "Jenkins Pipeline Success",
+                 body: "The Jenkins pipeline completed successfully."
         }
         failure {
             mail to: "${EMAIL}",
-                 subject: "Jenkins Pipeline Failed: Voting DApp",
-                 body: "The Jenkins pipeline failed. Please check the Jenkins logs for details."
+                 subject: "Jenkins Pipeline Failed",
+                 body: "The Jenkins pipeline failed. Please check the Jenkins logs."
         }
     }
 }
